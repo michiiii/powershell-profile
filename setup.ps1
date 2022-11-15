@@ -5,6 +5,8 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
         if ($PSVersionTable.PSEdition -eq "Core" ) { 
             if (!(Test-Path -Path ($env:userprofile + "\Documents\Powershell"))) {
                 New-Item -Path ($env:userprofile + "\Documents\Powershell") -ItemType "directory"
+		$pwspath = $env:userprofile + "\Documents\Powershell\quick-term.omp.json"
+		curl https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/quick-term.omp.json -o $pwspath
             }
         }
         elseif ($PSVersionTable.PSEdition -eq "Desktop") {
