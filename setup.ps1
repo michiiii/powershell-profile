@@ -14,7 +14,10 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
                 New-Item -Path ($env:userprofile + "\Documents\WindowsPowerShell") -ItemType "directory"
             }
         }
-        Invoke-RestMethod https://raw.githubusercontent.com/l4rm4nd/powershell-profile/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+        
+	$pspath = $env:userprofile + "\Documents\WindowsPowerShell\quick-term.omp.json"
+	curl https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/quick-term.omp.json -o $pspath
+	Invoke-RestMethod https://raw.githubusercontent.com/l4rm4nd/powershell-profile/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
         Write-Host "The profile @ [$PROFILE] has been created."
     }
     catch {
