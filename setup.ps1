@@ -1,3 +1,39 @@
+function Install-Font {
+	
+	param(
+		[Parameter( Mandatory, ValueFromPipeline )]
+		[System.IO.FileInfo[]]
+		$FontFile,
+		
+		[switch]
+		$WhatIf
+	)
+	
+	begin {
+		$shell = New-Object -ComObject 'Shell.Application';
+	}
+	
+	process {
+		foreach( $file in $FontFile ) {
+			if( $WhatIf ) {
+				Write-Host -Message(
+					'Installing font "{0}".' -f $file.Name
+				);
+			} else {
+				$shell.NameSpace(
+					$file.Directory.FullName
+				).ParseName(
+					$file.Name
+				).Verbs() | ForEach-Object {
+					if( $_.Name -eq 'Install for &all users' ) {
+						$_.DoIt();
+					}
+				};
+			}
+		}
+	}
+}
+
 #If the file does not exist, create it.
 if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
     try {
@@ -27,7 +63,7 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
 # If the file already exists, show the message and do nothing.
  else {
 		 Get-Item -Path $PROFILE | Move-Item -Destination oldprofile.ps1
-		 Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+		 Invoke-RestMethod https://raw.githubusercontent.com/l4rm4nd/powershell-profile/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
 		 Write-Host "The profile @ [$PROFILE] has been created and old profile removed."
  }
 & $profile
@@ -37,10 +73,13 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
 winget install -e --accept-source-agreements --accept-package-agreements JanDeDobbeleer.OhMyPosh
 
 # Font Install
-# You will have to extract and Install this font manually, alternatively use the oh my posh font installer (Must be run as admin)
-# oh-my-posh font install
-# You will also need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
+# You need to set your Nerd Font of choice in your window defaults or in the Windows Terminal Settings.
+# download fonts
 Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o cove.zip
+# extract zip
+Expand-Archive .\cove.zip -DestinationPath cove
+# install fonts
+Get-ChildItem -LiteralPath "cove" -File -Filter *.ttf | Install-Font
 
 # Choco install
 #
