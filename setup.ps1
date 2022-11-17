@@ -77,7 +77,7 @@ winget install -e --accept-source-agreements --accept-package-agreements JanDeDo
 # download fonts
 Invoke-RestMethod https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/CascadiaCode.zip?WT.mc_id=-blog-scottha -o cove.zip
 # extract zip
-Expand-Archive .\cove.zip -DestinationPath cove
+Expand-Archive .\cove.zip -DestinationPath cove -Force
 # install fonts
 Get-ChildItem -LiteralPath "cove" -File -Filter *.ttf | Install-Font
 
