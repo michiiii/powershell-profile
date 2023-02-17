@@ -15,4 +15,6 @@ irm "https://raw.githubusercontent.com/l4rm4nd/powershell-profile/main/setup.ps1
 
 ## Fix the Missing Font
 
-- configure Windows PowerShell settings and choose `CaskaydiaCove Nerd Font Mono` (Defaults > Appearance > Font face)
+- configure Windows PowerShell settings and choose `CaskaydiaCove Nerd Font Mono` 
+  - Defaults > Appearance > Font face
+  - Standardwerte > Darstellung > Schriftart
